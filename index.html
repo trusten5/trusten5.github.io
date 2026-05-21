@@ -654,30 +654,11 @@ const projects = {
     <p class="modal-sub">E80: Experimental Engineering — Harvey Mudd College, May 2025</p>
     <div class="modal-body">
       <p>
-        Built a fully autonomous surface vehicle that navigates open water and deploys a sensor payload
-        via a motorized winch to collect <strong>depth-resolved luminosity and temperature data</strong>.
-        Deployed at Dana Point Beach, California — measured light attenuation consistent with Beer-Lambert
-        law (α = 0.855 m⁻¹, R² = 0.963).
+        Built a fully autonomous surface vehicle that deploys a sensor payload via a motorized winch
+        to collect depth-resolved luminosity and temperature data. Deployed at Dana Point Beach —
+        measured light attenuation consistent with Beer-Lambert law (α = 0.855 m⁻¹, R² = 0.963).
+        Three analog sensor circuits designed from scratch.
       </p>
-      <p>
-        The vehicle navigates autonomously using GPS waypoints, manages power from onboard batteries,
-        and controls a custom-designed winch mechanism to lower and retrieve the sensor payload at
-        precise depths. Three analog sensor circuits were designed and built from scratch.
-      </p>
-      <div class="modal-stat-row">
-        <div class="modal-stat">
-          <div class="modal-stat-val">α = 0.855</div>
-          <div class="modal-stat-label">Attenuation coeff. (m⁻¹)</div>
-        </div>
-        <div class="modal-stat">
-          <div class="modal-stat-val">R² 0.963</div>
-          <div class="modal-stat-label">Beer-Lambert fit</div>
-        </div>
-        <div class="modal-stat">
-          <div class="modal-stat-val">3</div>
-          <div class="modal-stat-label">Custom sensor circuits</div>
-        </div>
-      </div>
       <div class="modal-tags">
         <span class="tag">C++ / Teensy 4.0</span>
         <span class="tag">Op-Amp Circuit Design</span>
@@ -697,36 +678,16 @@ const projects = {
     <p class="modal-sub">Priori Sport — production ML for professional tracking data</p>
     <div class="modal-body">
       <p>
-        Built and maintained production ML models for event prediction on 3.2M+ tracking events
-        across MLS and NCAA clients. Work spans <strong>feature engineering on spatiotemporal data</strong>,
-        model training and evaluation, and pipeline infrastructure for processing full-game data.
+        Production xG and xA models trained on 3.2M+ tracking events for MLS and NCAA clients.
+        Work spans spatiotemporal feature engineering, model evaluation, and pipeline infrastructure
+        bridging raw data with match film for coaching workflows. Promoted from intern to ML Engineer.
       </p>
-      <p>
-        Models include expected goals (xG), expected assists (xA), pressing effectiveness, and a
-        continuous possession model. Outputs bridge raw tracking data and match film for coaching workflows.
-        Promoted from intern to part-time ML Engineer based on sustained ownership of modeling deliverables.
-      </p>
-      <div class="modal-stat-row">
-        <div class="modal-stat">
-          <div class="modal-stat-val">.761</div>
-          <div class="modal-stat-label">xG model AUC</div>
-        </div>
-        <div class="modal-stat">
-          <div class="modal-stat-val">.981</div>
-          <div class="modal-stat-label">xA model AUC</div>
-        </div>
-        <div class="modal-stat">
-          <div class="modal-stat-val">3.2M+</div>
-          <div class="modal-stat-label">Tracking events</div>
-        </div>
-      </div>
-      <p style="font-size: 14px; color: var(--ink-3); font-family: var(--mono); font-weight: 300;">
+      <p style="font-size: 13px; color: var(--ink-3); font-family: var(--mono); font-weight: 300;">
         Code is proprietary. Details available on request.
       </p>
       <div class="modal-tags">
         <span class="tag">Python</span>
         <span class="tag">XGBoost</span>
-        <span class="tag">Logistic Regression</span>
         <span class="tag">Spatiotemporal Features</span>
         <span class="tag">Pandas / NumPy</span>
         <span class="tag">scikit-learn</span>
@@ -739,26 +700,10 @@ const projects = {
     <p class="modal-sub">ESP32 · MQTT · RFID-RC522 · SSD1306 OLED</p>
     <div class="modal-body">
       <p>
-        A WiFi-connected physical message display built on an ESP32. When a new message arrives
-        over MQTT, an LED ring lights up. Tapping a paired NFC fob to the RFID reader reveals the
-        message on a 128×64 OLED display. The full enclosure is designed and 3D printed from scratch.
+        WiFi-connected physical message display built on an ESP32. An LED ring lights up when
+        a message arrives over MQTT — tapping a paired NFC fob reveals it on a 128×64 OLED.
+        Also rotates through a live weather display, dual-timezone clock, and pixel-art animations.
       </p>
-
-      <div class="modal-section-head">How It Works</div>
-      <p>
-        The ESP32 connects to WiFi on boot and subscribes to an MQTT feed via Adafruit IO.
-        Incoming messages trigger a NeoPixel animation. The RFID-RC522 module authenticates
-        paired cards or fobs — only registered UIDs can reveal the message. The device also
-        auto-rotates through ambient info screens: a live weather display pulling from OpenWeatherMap,
-        a dual-timezone clock, and a small pixel-art animation.
-      </p>
-      <p>
-        <strong>Preset message codes</strong> (e.g. <code style="font-family: var(--mono); font-size: 13px;">__HEART__</code>,
-        <code style="font-family: var(--mono); font-size: 13px;">__MORNING__</code>) trigger
-        custom OLED animations before displaying a text message — so the sender can send an animation,
-        not just a string.
-      </p>
-
       <div class="modal-tags">
         <span class="tag">ESP32</span>
         <span class="tag">RFID-RC522</span>
@@ -766,10 +711,7 @@ const projects = {
         <span class="tag">MQTT / Adafruit IO</span>
         <span class="tag">SSD1306 OLED</span>
         <span class="tag">NeoPixel</span>
-        <span class="tag">OpenWeatherMap API</span>
-        <span class="tag">Tinkercad / 3D Print</span>
       </div>
-      <a class="modal-link" href="https://github.com/trusten5" target="_blank">view on github →</a>
     </div>
   `,
 };
