@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trusten Lehmann-Karp</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f5f3ef;
+      --ink: #1a1814;
+      --ink-2: #5a564f;
+      --ink-3: #9a968f;
+      --rule: #ddd9d3;
+      --accent: #b84c2e;
+      --card-bg: #faf9f6;
+      --mono: 'DM Mono', monospace;
+      --serif: 'EB Garamond', Georgia, serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--serif);
+      font-size: 18px;
+      line-height: 1.65;
+      min-height: 100vh;
+    }
+
+    .page {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 80px 32px 120px;
+    }
+
+    /* ── Header ── */
+    header { margin-bottom: 72px; }
+
+    .name {
+      font-size: clamp(2.2rem, 5vw, 3.4rem);
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin-bottom: 6px;
+    }
+
+    .name em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .tagline {
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--ink-3);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 28px;
+    }
+
+    .bio {
+      font-size: 17px;
+      color: var(--ink-2);
+      max-width: 560px;
+      line-height: 1.75;
+    }
+
+    .bio a {
+      color: var(--ink);
+      text-decoration: underline;
+      text-decoration-color: var(--rule);
+      text-underline-offset: 3px;
+      transition: text-decoration-color 0.2s;
+    }
+    .bio a:hover { text-decoration-color: var(--accent); }
+
+    .nav-links {
+      display: flex;
+      gap: 24px;
+      margin-top: 28px;
+      flex-wrap: wrap;
+    }
+
+    .nav-link {
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--ink-2);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      padding-bottom: 2px;
+      border-bottom: 1px solid var(--rule);
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .nav-link:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    /* ── Section ── */
+    section { margin-bottom: 64px; }
+
+    .section-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 300;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--rule);
+    }
+
+    /* ── Work items ── */
+    .work-item {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 4px 16px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .work-item:first-child { border-top: 1px solid var(--rule); }
+
+    .work-role {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--ink);
+    }
+
+    .work-org {
+      font-size: 15px;
+      color: var(--ink-2);
+      font-style: italic;
+    }
+
+    .work-date {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 300;
+      color: var(--ink-3);
+      text-align: right;
+      align-self: start;
+      padding-top: 3px;
+      white-space: nowrap;
+    }
+
+    .work-detail {
+      grid-column: 1 / -1;
+      font-size: 13px;
+      color: var(--ink-3);
+      margin-top: 2px;
+      font-family: var(--mono);
+      font-weight: 300;
+      line-height: 1.6;
+    }
+
+    /* ── Project cards ── */
+    .projects-grid { display: grid; gap: 2px; }
+
+    .project-card {
+      background: var(--card-bg);
+      border: 1px solid var(--rule);
+      padding: 24px 28px;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      position: relative;
+    }
+
+    .project-card:hover {
+      border-color: var(--ink-3);
+      background: #fff;
+    }
+
+    .project-card.featured {
+      border-color: var(--accent);
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .project-card.featured::before {
+      content: 'featured';
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 300;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      text-transform: uppercase;
+      position: absolute;
+      top: 16px;
+      right: 20px;
+      z-index: 1;
+    }
+
+    .project-img {
+      width: 100%;
+      height: 240px;
+      object-fit: cover;
+      object-position: center 30%;
+      display: block;
+      filter: grayscale(10%);
+      transition: filter 0.3s;
+    }
+
+    .project-card:hover .project-img { filter: grayscale(0%); }
+
+    .project-card-body { padding: 24px 28px; }
+
+    .project-title {
+      font-size: 17px;
+      font-weight: 500;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+
+    .project-sub {
+      font-size: 14px;
+      color: var(--ink-2);
+      font-style: italic;
+      margin-bottom: 10px;
+    }
+
+    .project-desc {
+      font-size: 14px;
+      color: var(--ink-3);
+      line-height: 1.6;
+      margin-bottom: 10px;
+    }
+
+    .project-tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    .tag {
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 300;
+      letter-spacing: 0.06em;
+      color: var(--ink-3);
+      border: 1px solid var(--rule);
+      padding: 2px 8px;
+      border-radius: 2px;
+    }
+
+    .project-arrow {
+      position: absolute;
+      bottom: 20px;
+      right: 24px;
+      font-family: var(--mono);
+      font-size: 14px;
+      color: var(--rule);
+      transition: color 0.2s, transform 0.2s;
+    }
+
+    .project-card:hover .project-arrow {
+      color: var(--ink-3);
+      transform: translateX(3px);
+    }
+
+    /* ── Modal ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(26, 24, 20, 0.6);
+      backdrop-filter: blur(4px);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-overlay.open { display: flex; }
+
+    .modal {
+      background: var(--bg);
+      max-width: 680px;
+      width: 100%;
+      max-height: 88vh;
+      overflow-y: auto;
+      padding: 48px;
+      position: relative;
+      border: 1px solid var(--rule);
+      animation: modalIn 0.2s ease;
+    }
+
+    @keyframes modalIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 24px;
+      font-family: var(--mono);
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--ink-3);
+      background: none;
+      border: none;
+      cursor: pointer;
+      letter-spacing: 0.05em;
+      transition: color 0.2s;
+    }
+
+    .modal-close:hover { color: var(--ink); }
+
+    .modal-title {
+      font-size: 1.8rem;
+      font-weight: 400;
+      letter-spacing: -0.01em;
+      margin-bottom: 4px;
+    }
+
+    .modal-sub {
+      font-size: 15px;
+      color: var(--ink-2);
+      font-style: italic;
+      margin-bottom: 24px;
+    }
+
+    .modal-body p {
+      font-size: 16px;
+      color: var(--ink-2);
+      line-height: 1.75;
+      margin-bottom: 16px;
+    }
+
+    .modal-body strong { color: var(--ink); font-weight: 500; }
+
+    .modal-stat-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 1px;
+      background: var(--rule);
+      border: 1px solid var(--rule);
+      margin: 24px 0;
+    }
+
+    .modal-stat {
+      background: var(--card-bg);
+      padding: 16px 18px;
+      text-align: center;
+    }
+
+    .modal-stat-val {
+      font-size: 1.5rem;
+      font-weight: 400;
+      color: var(--ink);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .modal-stat-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 300;
+      color: var(--ink-3);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .modal-section-head {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 300;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      margin: 28px 0 10px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .modal-tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 24px;
+    }
+
+    .modal-link {
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 300;
+      letter-spacing: 0.06em;
+      color: var(--ink);
+      text-decoration: none;
+      border-bottom: 1px solid var(--ink);
+      padding-bottom: 2px;
+      transition: color 0.2s, border-color 0.2s;
+      display: inline-block;
+      margin-top: 28px;
+    }
+    .modal-link:hover { color: var(--accent); border-color: var(--accent); }
+
+    /* ── Skills ── */
+    .skills-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .skill-pill {
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--ink-2);
+      border: 1px solid var(--rule);
+      padding: 4px 12px;
+      border-radius: 2px;
+    }
+
+    /* ── Education ── */
+    .edu-block {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .edu-school { font-size: 17px; font-weight: 500; }
+    .edu-deg { font-size: 15px; color: var(--ink-2); font-style: italic; }
+
+    .edu-year {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--ink-3);
+      white-space: nowrap;
+    }
+
+    .edu-detail {
+      font-size: 14px;
+      color: var(--ink-3);
+      font-family: var(--mono);
+      font-weight: 300;
+      margin-top: 4px;
+    }
+
+    /* ── Footer ── */
+    footer {
+      margin-top: 80px;
+      padding-top: 24px;
+      border-top: 1px solid var(--rule);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .footer-name {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 300;
+      color: var(--ink-3);
+      letter-spacing: 0.05em;
+    }
+
+    .footer-links { display: flex; gap: 20px; }
+
+    .footer-link {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 300;
+      color: var(--ink-3);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      transition: color 0.2s;
+    }
+
+    .footer-link:hover { color: var(--accent); }
+
+    /* ── Animations ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    header                { animation: fadeUp 0.5s ease 0.05s both; }
+    section:nth-child(1)  { animation: fadeUp 0.5s ease 0.15s both; }
+    section:nth-child(2)  { animation: fadeUp 0.5s ease 0.22s both; }
+    section:nth-child(3)  { animation: fadeUp 0.5s ease 0.29s both; }
+    section:nth-child(4)  { animation: fadeUp 0.5s ease 0.36s both; }
+    section:nth-child(5)  { animation: fadeUp 0.5s ease 0.43s both; }
+
+    /* ── Responsive ── */
+    @media (max-width: 600px) {
+      .page { padding: 48px 20px 80px; }
+      .modal { padding: 32px 20px; }
+      .work-item { grid-template-columns: 1fr; }
+      .work-date { text-align: left; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- Header -->
+  <header>
+    <p class="tagline">Engineering · ML · Embedded Systems</p>
+    <h1 class="name">Trusten<br><em>Lehmann-Karp</em></h1>
+    <p class="bio">
+      Engineering student at <a href="https://hmc.edu" target="_blank">Harvey Mudd College</a>, Class of 2028.
+      I build applied ML systems and hardware projects — from production soccer analytics pipelines
+      to embedded IoT devices. NCAA soccer player.
+    </p>
+    <nav class="nav-links">
+      <a class="nav-link" href="mailto:tlehmannkarp@g.hmc.edu">email</a>
+      <a class="nav-link" href="https://github.com/trusten5" target="_blank">github</a>
+      <a class="nav-link" href="https://linkedin.com/in/trustenlk" target="_blank">linkedin</a>
+      <a class="nav-link" href="resume.pdf" target="_blank">resume</a>
+    </nav>
+  </header>
+
+  <!-- Projects -->
+  <section>
+    <div class="section-label">projects</div>
+    <div class="projects-grid">
+
+      <!-- ASV — Featured -->
+      <div class="project-card featured" onclick="openModal('asv')">
+        <img class="project-img" src="asv_poster.jpg" alt="Trusten presenting the ASV at the E80 poster session" />
+        <div class="project-card-body">
+          <div class="project-title">Autonomous Surface Vehicle</div>
+          <div class="project-sub">Depth-resolved environmental sensing with deployable winch payload</div>
+          <div class="project-tags">
+            <span class="tag">C++ / Teensy</span>
+            <span class="tag">Analog Circuit Design</span>
+            <span class="tag">MATLAB</span>
+            <span class="tag">Ocean Deployment</span>
+          </div>
+          <span class="project-arrow">→</span>
+        </div>
+      </div>
+
+      <!-- Soccer Analytics -->
+      <div class="project-card" onclick="openModal('soccer')">
+        <div class="project-title">Soccer Analytics Pipeline</div>
+        <div class="project-sub">Production ML models for professional tracking data</div>
+        <div class="project-desc">End-to-end spatiotemporal feature engineering and model evaluation on live MLS and NCAA event data.</div>
+        <div class="project-tags">
+          <span class="tag">Python</span>
+          <span class="tag">XGBoost</span>
+          <span class="tag">Spatiotemporal ML</span>
+          <span class="tag">MLS / NCAA</span>
+        </div>
+        <span class="project-arrow">→</span>
+      </div>
+
+      <!-- RFID Message Box -->
+      <div class="project-card" onclick="openModal('rfid')">
+        <div class="project-title">WiFi Message Display</div>
+        <div class="project-sub">IoT physical inbox — lights on message, reveals on NFC tap</div>
+        <div class="project-desc">ESP32-based device that receives messages over MQTT and displays them on an OLED when an NFC fob is tapped.</div>
+        <div class="project-tags">
+          <span class="tag">ESP32</span>
+          <span class="tag">MicroPython</span>
+          <span class="tag">MQTT</span>
+          <span class="tag">RFID / NFC</span>
+          <span class="tag">3D Printed</span>
+        </div>
+        <span class="project-arrow">→</span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Skills -->
+  <section>
+    <div class="section-label">skills</div>
+    <div class="skills-list">
+      <span class="skill-pill">Python</span>
+      <span class="skill-pill">C / C++</span>
+      <span class="skill-pill">MATLAB</span>
+      <span class="skill-pill">Java</span>
+      <span class="skill-pill">XGBoost</span>
+      <span class="skill-pill">scikit-learn</span>
+      <span class="skill-pill">PyTorch</span>
+      <span class="skill-pill">HuggingFace</span>
+      <span class="skill-pill">Pandas / NumPy</span>
+      <span class="skill-pill">FastAPI</span>
+      <span class="skill-pill">Next.js</span>
+      <span class="skill-pill">ESP32 / Arduino</span>
+      <span class="skill-pill">Embedded Systems</span>
+      <span class="skill-pill">Analog Circuit Design</span>
+      <span class="skill-pill">Git</span>
+      <span class="skill-pill">SQL</span>
+    </div>
+  </section>
+
+  <!-- Education -->
+  <section>
+    <div class="section-label">education</div>
+    <div>
+      <div class="edu-block">
+        <div>
+          <div class="edu-school">Harvey Mudd College</div>
+          <div class="edu-deg">B.S. Engineering · Spanish Minor</div>
+        </div>
+        <div class="edu-year">2024 – 2028</div>
+      </div>
+      <div class="edu-detail">Dean's List &nbsp;·&nbsp; NCAA DIII Soccer — 2024 SCIAC Champions, Sweet-16</div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <span class="footer-name">Trusten Lehmann-Karp · HMC '28</span>
+    <div class="footer-links">
+      <a class="footer-link" href="mailto:tlehmannkarp@g.hmc.edu">email</a>
+      <a class="footer-link" href="https://github.com/trusten5" target="_blank">github</a>
+      <a class="footer-link" href="https://linkedin.com/in/trustenlk" target="_blank">linkedin</a>
+    </div>
+  </footer>
+
+</div>
+
+<!-- Modals -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+  <div class="modal" id="modal-box">
+    <button class="modal-close" onclick="closeModal()">close ✕</button>
+    <div id="modal-content"></div>
+  </div>
+</div>
+
+<script>
+const projects = {
+
+  asv: `
+    <h2 class="modal-title">Autonomous Surface Vehicle</h2>
+    <p class="modal-sub">E80: Experimental Engineering — Harvey Mudd College, May 2025</p>
+    <div class="modal-body">
+      <p>
+        Built a fully autonomous surface vehicle that navigates open water and deploys a sensor payload
+        via a motorized winch to collect <strong>depth-resolved luminosity and temperature data</strong>.
+        Deployed at Dana Point Beach, California — measured light attenuation consistent with Beer-Lambert
+        law (α = 0.855 m⁻¹, R² = 0.963).
+      </p>
+      <p>
+        The vehicle navigates autonomously using GPS waypoints, manages power from onboard batteries,
+        and controls a custom-designed winch mechanism to lower and retrieve the sensor payload at
+        precise depths. Three analog sensor circuits were designed and built from scratch.
+      </p>
+      <div class="modal-stat-row">
+        <div class="modal-stat">
+          <div class="modal-stat-val">α = 0.855</div>
+          <div class="modal-stat-label">Attenuation coeff. (m⁻¹)</div>
+        </div>
+        <div class="modal-stat">
+          <div class="modal-stat-val">R² 0.963</div>
+          <div class="modal-stat-label">Beer-Lambert fit</div>
+        </div>
+        <div class="modal-stat">
+          <div class="modal-stat-val">3</div>
+          <div class="modal-stat-label">Custom sensor circuits</div>
+        </div>
+      </div>
+      <div class="modal-tags">
+        <span class="tag">C++ / Teensy 4.0</span>
+        <span class="tag">Op-Amp Circuit Design</span>
+        <span class="tag">MATLAB</span>
+        <span class="tag">Autonomous Navigation</span>
+        <span class="tag">3D Printed Payload</span>
+        <span class="tag">Ocean Deployment</span>
+      </div>
+      <div style="margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--rule);">
+        <a class="modal-link" href="E80_Final_Report.pdf" target="_blank">read the full report →</a>
+      </div>
+    </div>
+  `,
+
+  soccer: `
+    <h2 class="modal-title">Soccer Analytics Pipeline</h2>
+    <p class="modal-sub">Priori Sport — production ML for professional tracking data</p>
+    <div class="modal-body">
+      <p>
+        Built and maintained production ML models for event prediction on 3.2M+ tracking events
+        across MLS and NCAA clients. Work spans <strong>feature engineering on spatiotemporal data</strong>,
+        model training and evaluation, and pipeline infrastructure for processing full-game data.
+      </p>
+      <p>
+        Models include expected goals (xG), expected assists (xA), pressing effectiveness, and a
+        continuous possession model. Outputs bridge raw tracking data and match film for coaching workflows.
+        Promoted from intern to part-time ML Engineer based on sustained ownership of modeling deliverables.
+      </p>
+      <div class="modal-stat-row">
+        <div class="modal-stat">
+          <div class="modal-stat-val">.761</div>
+          <div class="modal-stat-label">xG model AUC</div>
+        </div>
+        <div class="modal-stat">
+          <div class="modal-stat-val">.981</div>
+          <div class="modal-stat-label">xA model AUC</div>
+        </div>
+        <div class="modal-stat">
+          <div class="modal-stat-val">3.2M+</div>
+          <div class="modal-stat-label">Tracking events</div>
+        </div>
+      </div>
+      <p style="font-size: 14px; color: var(--ink-3); font-family: var(--mono); font-weight: 300;">
+        Code is proprietary. Details available on request.
+      </p>
+      <div class="modal-tags">
+        <span class="tag">Python</span>
+        <span class="tag">XGBoost</span>
+        <span class="tag">Logistic Regression</span>
+        <span class="tag">Spatiotemporal Features</span>
+        <span class="tag">Pandas / NumPy</span>
+        <span class="tag">scikit-learn</span>
+      </div>
+    </div>
+  `,
+
+  rfid: `
+    <h2 class="modal-title">WiFi Message Display</h2>
+    <p class="modal-sub">ESP32 · MQTT · RFID-RC522 · SSD1306 OLED</p>
+    <div class="modal-body">
+      <p>
+        A WiFi-connected physical message display built on an ESP32. When a new message arrives
+        over MQTT, an LED ring lights up. Tapping a paired NFC fob to the RFID reader reveals the
+        message on a 128×64 OLED display. The full enclosure is designed and 3D printed from scratch.
+      </p>
+
+      <div class="modal-section-head">How It Works</div>
+      <p>
+        The ESP32 connects to WiFi on boot and subscribes to an MQTT feed via Adafruit IO.
+        Incoming messages trigger a NeoPixel animation. The RFID-RC522 module authenticates
+        paired cards or fobs — only registered UIDs can reveal the message. The device also
+        auto-rotates through ambient info screens: a live weather display pulling from OpenWeatherMap,
+        a dual-timezone clock, and a small pixel-art animation.
+      </p>
+      <p>
+        <strong>Preset message codes</strong> (e.g. <code style="font-family: var(--mono); font-size: 13px;">__HEART__</code>,
+        <code style="font-family: var(--mono); font-size: 13px;">__MORNING__</code>) trigger
+        custom OLED animations before displaying a text message — so the sender can send an animation,
+        not just a string.
+      </p>
+
+      <div class="modal-tags">
+        <span class="tag">ESP32</span>
+        <span class="tag">RFID-RC522</span>
+        <span class="tag">C++ / Arduino</span>
+        <span class="tag">MQTT / Adafruit IO</span>
+        <span class="tag">SSD1306 OLED</span>
+        <span class="tag">NeoPixel</span>
+        <span class="tag">OpenWeatherMap API</span>
+        <span class="tag">Tinkercad / 3D Print</span>
+      </div>
+      <a class="modal-link" href="https://github.com/trusten5" target="_blank">view on github →</a>
+    </div>
+  `,
+};
+
+function openModal(id) {
+  document.getElementById('modal-content').innerHTML = projects[id] || '';
+  document.getElementById('modal-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(e) {
+  if (e && e.target !== document.getElementById('modal-overlay') && !e.target.classList.contains('modal-close')) return;
+  document.getElementById('modal-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModal({ target: document.getElementById('modal-overlay') });
+});
+</script>
+
+</body>
+</html>
